@@ -1,0 +1,169 @@
+{
+  "info": {
+    "name": "Staj Library System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Auth (login/register) + protected endpoints with JWT. Use {{baseUrl}} and {{token}}."
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\",\n  \"email\": \"test@lms.local\",\n  \"password\": \"Test#123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json && json.token) {",
+                  "  pm.collectionVariables.set('token', json.token);",
+                  "  pm.environment.set('token', json.token);",
+                  "}",
+                  "pm.test('has token', function () { pm.expect(json.token).to.be.a('string'); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@lms.local\",\n  \"password\": \"Admin#123\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Books",
+      "item": [
+        {
+          "name": "List Books",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/books",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "books"]
+            }
+          }
+        },
+        {
+          "name": "Search Books",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/books/search?title=Sapiens",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "books", "search"],
+              "query": [ { "key": "title", "value": "Sapiens" } ]
+            }
+          }
+        },
+        {
+          "name": "Create Book (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/books",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "books"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Yeni Kitap\",\n  \"bookshelfId\": 1,\n  \"authorIds\": [1]\n}"
+            }
+          }
+        }
+      ]
+    }
+    ,
+    {
+      "name": "Authors",
+      "item": [
+        { "name": "List Authors", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/authors", "host": ["{{baseUrl}}"], "path": ["api", "authors"] } } },
+        { "name": "Get Author", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/authors/1", "host": ["{{baseUrl}}"], "path": ["api", "authors", "1"] } } },
+        { "name": "Create Author (ADMIN)", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/authors", "host": ["{{baseUrl}}"], "path": ["api", "authors"] }, "body": { "mode": "raw", "raw": "{\n  \"fullName\": \"Yeni Yazar\"\n}" } } },
+        { "name": "Update Author (ADMIN)", "request": { "method": "PUT", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/authors/1", "host": ["{{baseUrl}}"], "path": ["api", "authors", "1"] }, "body": { "mode": "raw", "raw": "{\n  \"fullName\": \"Güncellenmiş Yazar\"\n}" } } },
+        { "name": "Delete Author (ADMIN)", "request": { "method": "DELETE", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/authors/1", "host": ["{{baseUrl}}"], "path": ["api", "authors", "1"] } } }
+      ]
+    }
+    ,
+    {
+      "name": "Libraries",
+      "item": [
+        { "name": "List Libraries", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/libraries", "host": ["{{baseUrl}}"], "path": ["api", "libraries"] } } },
+        { "name": "Get Library", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/libraries/1", "host": ["{{baseUrl}}"], "path": ["api", "libraries", "1"] } } },
+        { "name": "Create Library (ADMIN)", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/libraries", "host": ["{{baseUrl}}"], "path": ["api", "libraries"] }, "body": { "mode": "raw", "raw": "{\n  \"name\": \"Yeni Kütüphane\"\n}" } } },
+        { "name": "Update Library (ADMIN)", "request": { "method": "PUT", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/libraries/1", "host": ["{{baseUrl}}"], "path": ["api", "libraries", "1"] }, "body": { "mode": "raw", "raw": "{\n  \"name\": \"Güncel Kütüphane\"\n}" } } },
+        { "name": "Delete Library (ADMIN)", "request": { "method": "DELETE", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/libraries/1", "host": ["{{baseUrl}}"], "path": ["api", "libraries", "1"] } } }
+      ]
+    }
+    ,
+    {
+      "name": "Shelves",
+      "item": [
+        { "name": "List Shelves by Library", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/shelves/by-library/1", "host": ["{{baseUrl}}"], "path": ["api", "shelves", "by-library", "1"] } } },
+        { "name": "Get Shelf", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/shelves/1", "host": ["{{baseUrl}}"], "path": ["api", "shelves", "1"] } } },
+        { "name": "Create Shelf (ADMIN)", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/shelves", "host": ["{{baseUrl}}"], "path": ["api", "shelves"] }, "body": { "mode": "raw", "raw": "{\n  \"name\": \"Roman\",\n  \"libraryId\": 1\n}" } } },
+        { "name": "Update Shelf (ADMIN)", "request": { "method": "PUT", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/shelves/1", "host": ["{{baseUrl}}"], "path": ["api", "shelves", "1"] }, "body": { "mode": "raw", "raw": "{\n  \"name\": \"Bilim\"\n}" } } },
+        { "name": "Delete Shelf (ADMIN)", "request": { "method": "DELETE", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/shelves/1", "host": ["{{baseUrl}}"], "path": ["api", "shelves", "1"] } } }
+      ]
+    }
+    ,
+    {
+      "name": "Borrowings",
+      "item": [
+        { "name": "Borrow For Me (USER/ADMIN)", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/borrowings", "host": ["{{baseUrl}}"], "path": ["api", "borrowings"] }, "body": { "mode": "raw", "raw": "{\n  \"bookId\": 1\n}" } } },
+        { "name": "Borrow For User (ADMIN)", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" } ], "url": { "raw": "{{baseUrl}}/api/borrowings/admin", "host": ["{{baseUrl}}"], "path": ["api", "borrowings", "admin"] }, "body": { "mode": "raw", "raw": "{\n  \"userId\": 1,\n  \"bookId\": 1\n}" } } },
+        { "name": "Return Book (USER/ADMIN)", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/borrowings/1/return", "host": ["{{baseUrl}}"], "path": ["api", "borrowings", "1", "return"] } } },
+        { "name": "My Active Borrowings (USER/ADMIN)", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/borrowings/active", "host": ["{{baseUrl}}"], "path": ["api", "borrowings", "active"] } } },
+        { "name": "Active Borrowings By User (ADMIN)", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ], "url": { "raw": "{{baseUrl}}/api/borrowings/active/by-user/1", "host": ["{{baseUrl}}"], "path": ["api", "borrowings", "active", "by-user", "1"] } } }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "token", "value": "" }
+  ]
+}
+
+
