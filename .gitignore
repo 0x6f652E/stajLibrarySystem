@@ -73,3 +73,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Editor backups
+*~
+
+# Java crash logs
+hs_err_pid*

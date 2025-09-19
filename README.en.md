@@ -2,6 +2,8 @@
 
 [Türkçe README](README.md)
 
+Last Updated: 19.09.2025
+
 A simple Library Management System built with Spring Boot 3, Java 21, PostgreSQL, Spring Security (JWT), MapStruct, and Lombok.
 
 ### Features

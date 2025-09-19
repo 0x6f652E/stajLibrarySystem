@@ -2,7 +2,7 @@
   "info": {
     "name": "Staj Library System",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Auth (login/register) + protected endpoints with JWT. Use {{baseUrl}} and {{token}}."
+    "description": "Auth (login/register) + protected endpoints with JWT. Use {{baseUrl}} and {{token}}. (Updated: 19.09.2025)"
   },
   "item": [
     {
@@ -10,6 +10,7 @@
       "item": [
         {
           "name": "Register",
+          "description": "Create a new user account. Updated docs: 19.09.2025",
           "request": {
             "method": "POST",
             "header": [
@@ -28,6 +29,7 @@
         },
         {
           "name": "Login",
+          "description": "Obtain JWT token and save to {{token}}. Updated: 19.09.2025",
           "event": [
             {
               "listen": "test",
@@ -67,6 +69,7 @@
       "item": [
         {
           "name": "List Books",
+          "description": "Public listing requires JWT per security. Updated: 19.09.2025",
           "request": {
             "method": "GET",
             "header": [
@@ -81,6 +84,7 @@
         },
         {
           "name": "Search Books",
+          "description": "Search by title/author/library with pagination. Updated: 19.09.2025",
           "request": {
             "method": "GET",
             "header": [

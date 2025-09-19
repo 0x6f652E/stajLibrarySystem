@@ -2,6 +2,8 @@
 
 [English README](README.en.md)
 
+Son Güncelleme: 19.09.2025
+
 Basit bir kütüphane yönetim sistemidir. Spring Boot 3, Java 21, PostgreSQL, Spring Security (JWT), MapStruct ve Lombok kullanır.
 
 ### Özellikler

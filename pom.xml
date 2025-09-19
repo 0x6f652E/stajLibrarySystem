@@ -14,7 +14,7 @@
     <artifactId>stajLibrarySystem</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>stajLibrarySystem</name>
-    <description>LMS - Staj calismasi</description>
+    <description>LMS - Staj calismasi (Last updated: 19.09.2025)</description>
 
     <properties>
         <java.version>21</java.version>
